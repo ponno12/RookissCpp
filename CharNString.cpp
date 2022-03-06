@@ -20,12 +20,20 @@ char ch3 = 'a'+1; // 1바이트
 //utf-16 유럽지역 문자는 2바이트
 //wchar_t 는 유니코드를 저장한다
 wchar_t wch = L'노';
+char str[] = { 'h','2','l','l','o','\00'};
+char str2[] = "HELLO World";
+string str3 = "HELLo world string";
 int main()
 {    
 	cout << ch << endl << ch2 << ch3 << endl;
 	//setlocale(LC_ALL, "");
 	wcout.imbue(locale("korean"));
 	wcout << wch << endl;
+	cout << str << endl;
+	cout << str2 << endl;
+	cout << str3 << endl;
+
+
 
 }
 
