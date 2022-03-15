@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Enum.cpp">
+    <ClCompile Include="ReferenceBasic.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

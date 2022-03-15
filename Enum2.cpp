@@ -1,25 +1,35 @@
-﻿#include <iostream>
+#include <iostream>
 
 using namespace std;
+
+
+enum ENUM_RSP{
+	ENUM_ROCK =1,
+	ENUM_SISSORS,
+	ENUM_PAPPER
+};
+//#�� ������ -> ��ó�� ���ù�
+#define DEFINE_SCISSORS 1
 
 int main() {
 
 	int input;
 	int wincount = 0;
-	
+
 
 	while (wincount < 4)
 	{
 		cout << "����(1) ����(2) ��(3)�� ����ּ���!";
 		cin >> input;
-		int enemyChoice = 1+rand() % 3;
+		int enemyChoice = 1 + rand() % 3;
 		switch (input)
 		{
-		case 1:
+		case ENUM_ROCK:
 			if (enemyChoice == 1) {
-				cout << "�÷��̾�" <<input <<"��ǻ��"<< enemyChoice<< " �����ϴ�" << endl;
+				cout << "�÷��̾�" << input << "��ǻ��" << enemyChoice << " �����ϴ�" << endl;
 				continue;
-			}else if(enemyChoice ==2) {
+			}
+			else if (enemyChoice == 2) {
 				cout << "�÷��̾�" << input << "��ǻ��" << enemyChoice << " �����ϴ�" << endl;
 				continue;
 			}
@@ -29,7 +39,7 @@ int main() {
 				wincount++;
 				continue;
 			}
-		case 2:
+		case ENUM_SISSORS:
 			if (enemyChoice == 1) {
 				cout << "�÷��̾�" << input << "��ǻ��" << enemyChoice << " �̰���ϴ�" << endl;
 				wincount++;
@@ -46,7 +56,7 @@ int main() {
 				continue;
 
 			}
-		case 3:
+		case ENUM_PAPPER:
 			if (enemyChoice == 1) {
 				cout << "�÷��̾�" << input << "��ǻ��" << enemyChoice << " �����ϴ�" << endl;
 				continue;
@@ -68,6 +78,6 @@ int main() {
 			continue;
 			break;
 		}
-		
+
 	}
 }
