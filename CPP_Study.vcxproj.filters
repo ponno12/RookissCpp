@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ReferenceBasic.cpp">
+    <ClCompile Include="PointerNArray.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
