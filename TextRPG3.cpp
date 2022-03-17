@@ -32,7 +32,7 @@ void CreateMonster(StatInfo* monsterInfo);
 void EnterGame(StatInfo* plyaerInfo);
 void PrintStatInfo();
 
-void EnterBattle(*plyaerInfo, *monsterInfo);
+//void EnterBattle(*plyaerInfo, *monsterInfo);
 
 
 int main()
@@ -116,7 +116,7 @@ void EnterGame(StatInfo* plyaerInfo)
 	
 	StatInfo monsterInfo;
 	CreateMonster(&monsterInfo);
-	EnterBattle(&plyaerInfo, &monsterInfo);
+	//EnterBattle(&plyaerInfo, &monsterInfo);
 
 }
 void CreateMonster(StatInfo* monsterInfo)
