@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="PointerNArray.cpp">
+    <ClCompile Include="TextRPG3.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
