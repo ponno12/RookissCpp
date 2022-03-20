@@ -7,7 +7,7 @@ using namespace std;
 enum PlayerType
 {
 	PT_Knight = 1,
-	PT_ARCHER = 2,
+	PT_Archer = 2,
 	PT_Mage = 3
 };
 enum MosterType
@@ -27,12 +27,13 @@ struct StatInfo
 };
 void EnterLobby();
 void PrintMessage(const char* msg);
-void CreatePlayer(StatInfo playerInfo);
-void CreateMonster(StatInfo* monsterInfo);
-void EnterGame(StatInfo* plyaerInfo);
-void PrintStatInfo();
+void CreatePlayer(StatInfo* playerInfo);
+void PrintStatInfo(const char* name, const StatInfo& info);
+void EnterGame(StatInfo* playerInfo);
+void CreateMonster(StatInfo monsterInfo[], int count);
+void CreatMonster(StatInfo* monsterInfo);
+bool EnterBattle(StatInfo* playerInfo, StatInfo* monsterInfo);
 
-//void EnterBattle(*plyaerInfo, *monsterInfo);
 
 
 int main()
@@ -51,12 +52,14 @@ void EnterLobby()
 
 	while (true)
 	{
-		//Player 생성
+		//player 생성
 		StatInfo playerinfo;
-		StatInfo& playerInfoRef = playerinfo;
+		StatInfo& playerinforef = playerinfo;
 
-		CreatePlayer(playerInfoRef);
+		CreatePlayer(&playerinfo);
 		PrintMessage("플레이어 생성을 완료했습니다");
+		PrintStatInfo("플레이어", playerinfo);
+
 		EnterGame(&playerinfo);
 
 		
@@ -70,79 +73,143 @@ void PrintMessage(const char* msg)
 	cout << "*****************************" << endl;
 
 }
-void CreatePlayer(StatInfo playerInfo)
+void CreatePlayer(StatInfo* playerInfo)
 {
-	bool endCreate = false;
-	while (endCreate == false)
+	int input;
+	cout << "직업을 골라주세요!" << endl;
+	cout << "[1] 기사  [2] 궁수 [3] 법사" << endl;
+	cin >> input;
+	switch (input)
 	{
-		PrintMessage("캐릭터 생성창");
-		PrintMessage("[1] 기사  [2] 궁수  [3] 법사");
-
-		int input;
-		cin >> input;
-
-		switch (input)
-		{
-		case PT_Knight:
-			playerInfo.hp = 100;
-			playerInfo.attack = 10;
-			playerInfo.defence = 5;
-			endCreate = true;
-			break;
-		case PT_ARCHER:
-			playerInfo.hp = 80;
-			playerInfo.attack = 15;
-			playerInfo.defence = 3;
-			endCreate = true;
-
-			break;
-		case PT_Mage:
-			playerInfo.hp = 50;
-			playerInfo.attack = 40;
-			playerInfo.defence = 0;
-			endCreate = true;
-
-			break;
-		default:
-			break;
-		}
-
-	}
-}
-
-void EnterGame(StatInfo* plyaerInfo)
-{
-	PrintMessage("게임에 입장");
 	
-	StatInfo monsterInfo;
-	CreateMonster(&monsterInfo);
-	//EnterBattle(&plyaerInfo, &monsterInfo);
+	
+	case PT_Knight:
+		playerInfo->hp = 100;
+		playerInfo->attack = 10;
+		playerInfo->defence = 5;
+		break;
+	case PT_Archer : 
+		playerInfo->hp = 70;
+		playerInfo->attack = 15;
+		playerInfo->defence = 3;
+		break;
+	case PT_Mage:
+		playerInfo->hp = 50;
+		playerInfo->attack = 25;
+		playerInfo->defence = 0;
+		break;
 
-}
-void CreateMonster(StatInfo* monsterInfo)
-{
-	PrintMessage("몬스터 생성");
-
-	int monsterRandom = rand() % 3 + 1;
-
-	switch (monsterRandom)
-	{
-	case MT_Orc:
-		monsterInfo->hp = 100;
-		monsterInfo->attack = 5;
-		monsterInfo->defence = 1;
-	case MT_Slime:
-		monsterInfo->hp = 150;
-		monsterInfo->attack = 1;
-		monsterInfo->defence = 1;
-	case MT_Skeleton:
-		monsterInfo->hp = 30;
-		monsterInfo->attack = 7;
-		monsterInfo->defence = 0;
 	default:
 		break;
 	}
+
 }
+
+void PrintStatInfo(const char* name, const StatInfo& info)
+{
+	cout << name << "스탯 " << endl;
+	cout << "hp : " << info.hp << endl;
+	cout << "attack : " << info.attack << endl;
+	cout << "defense : " << info.defence << endl;
+
+}
+
+void EnterGame(StatInfo* playerInfo)
+{
+	
+	cout << "게임에 입장하였습니다" << endl;
+	
+	while (true)
+	{
+		StatInfo monsters[2];
+		CreateMonster(monsters, 2);
+		int monRand = rand() % 3 + 1;
+		PrintMessage("[1] 전투 [2] 전투 [3] 도망");
+		int input;
+		cin >> input;
+
+
+		if (input == 1 || input == 2)
+		{
+			int index = input - 1;
+			bool victory = EnterBattle(playerInfo, &(monsters[index]));
+			if (victory == false)
+			{
+				break;
+
+			}
+		}
+	}
+	
+
+}
+
+void CreateMonster(StatInfo monsterInfo[], int count)
+{
+	for (size_t i = 0; i < count; i++)
+	{
+		int monRand = rand() % 3 + 1;
+		switch (monRand)
+		{
+		case MT_Orc:
+			monsterInfo[i].hp = 50;
+			monsterInfo[i].attack = 10;
+			monsterInfo[i].defence = 5;
+		case MT_Slime:
+			monsterInfo[i].hp = 100;
+			monsterInfo[i].attack = 50;
+			monsterInfo[i].defence = 3;
+		case MT_Skeleton:
+			monsterInfo[i].hp = 30;
+			monsterInfo[i].attack = 10;
+			monsterInfo[i].defence = 0;
+
+		default:
+			break;
+		}
+		PrintStatInfo("몬스터 ", monsterInfo[i]);
+
+	}
+}
+
+bool EnterBattle(StatInfo* playerInfo, StatInfo* monsterInfo)
+{
+	while (true)
+	{
+		int damage = playerInfo->attack - monsterInfo->defence;
+		if (damage < 0)
+			damage = 0;
+
+		monsterInfo->hp -= damage;
+		if (monsterInfo->hp < 0)
+			monsterInfo->hp = 0;
+
+		PrintStatInfo("Monster", *monsterInfo);
+
+		if (monsterInfo->hp == 0)
+		{
+			PrintMessage("몬스터를 처치했습니다");
+			return true;
+		}
+
+		damage = monsterInfo->attack - playerInfo->defence;
+		if (damage < 0)
+			damage = 0;
+
+		playerInfo->hp -= damage;
+		if (playerInfo->hp < 0)
+			playerInfo->hp = 0;
+
+		PrintStatInfo("Player", *playerInfo);
+
+		if (playerInfo->hp == 0)
+		{
+			PrintMessage("Game Over");
+			return false;
+		}
+	}
+}
+
 
 
 
