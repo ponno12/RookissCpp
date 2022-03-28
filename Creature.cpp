@@ -1,0 +1,15 @@
+#include "Creature.h"
+
+void Creature::OnAttackted(Creature* attacker)
+{
+	int damage = attacker->_attack - _defense;
+	if (damage < 0)
+		damage = 0;
+
+	_hp -= damage;
+	if (_hp < 0)
+	{
+		_hp = 0;
+	}
+
+}
